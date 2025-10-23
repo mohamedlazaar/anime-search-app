@@ -14,7 +14,7 @@ import AnimeCard from "../components/AnimeCard";
 import Pagination from "../components/Pagination";
 
 const DEBOUNCE_MS = 250;
-const RESULTS_PER_PAGE = 25; // Jikan default per page
+
 
 export default function SearchPage() {
   const dispatch = useDispatch<AppDispatch>();
