@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { buildAnimeDetailUrl } from "../api/jikan";
 
+
 export default function DetailPage() {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<any | null>(null);

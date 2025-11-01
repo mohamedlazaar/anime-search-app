@@ -8,3 +8,4 @@ export function buildSearchUrl(query: string, page = 1) {
 export function buildAnimeDetailUrl(mal_id: number | string) {
   return `${JIKAN_BASE}/anime/${mal_id}/full`;
 }
+
