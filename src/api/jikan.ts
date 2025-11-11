@@ -9,3 +9,12 @@ export function buildAnimeDetailUrl(mal_id: number | string) {
   return `${JIKAN_BASE}/anime/${mal_id}/full`;
 }
 
+export function buildAnimeEpisodes(id: number | string){
+  return `${JIKAN_BASE}/anime/${id}/videos/episodes`
+}
+export function buildAnime(){
+  return `${JIKAN_BASE}/anime`
+}
+export function bestAnime(){
+  return `${JIKAN_BASE}/top/anime`
+}

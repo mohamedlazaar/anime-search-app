@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  background-color: #000;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+.sticky-cards{
+  width: 100%;
+  position: relative  ;
+  height: 100svh !important;
+  max-height: 100svh !important;
+  padding: 2em;
+  background-color: #1f1f1f;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+/* .anime-wrapper {
+  width: 100%;
+  position: relative !important;
+  height: 100svh !important;
+  padding: 2rem;
+  
+  background-color: #1f1f1f;
+  overflow: hidden !important;
+} */
+
+.anime-panel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 25px;
+  overflow: hidden;
+}
+/* .anime-panel:first-child{
+  position: absolute !important;
+} */
+.anime-content {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center; /* Add this */
+}
+
+
+.anime-details {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 3rem;
+  text-align: center;
+  max-width: 800px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.anime-category {
+  font-size: 1.2rem;
+  color: #ffd700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.anime-title {
+  font-size: 3rem;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+}
+
+.anime-synopsis {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.loading, .error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .anime-details {
+    padding: 1rem;
+    width: 95%;
+  }
+  
+  .anime-title {
+    font-size: 2rem;
+  }
+  
+  .anime-synopsis {
+    font-size: 0.8rem;
+  }
+}
