@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/all';
 import { useGSAP } from '@gsap/react';
 import '../style/BestAnime.css';
 import { Link } from 'react-router';
-
+import { useMediaQuery } from 'react-responsive';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +13,7 @@ const BestAnime = (containerRef:any) => {
   // const containerRef = useRef<any | null>(null);
   const [animeList, setAnimeList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const isMobile = useMediaQuery({maxWidth: 767})
   const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
