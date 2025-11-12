@@ -1,13 +1,14 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import '../style/slider.css';
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 const Slider = (type:any) => {
   const [animeList, setAnimeList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+  const isMobile = useMediaQuery({maxWidth: 767})
   const carouselRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<any>(null);
   const autoNextRef = useRef<any>(null);
@@ -151,10 +152,9 @@ useEffect(() => {
               }}
             />
             <div className="content">
-              <p className="anime-category">{anime.original_language?.toUpperCase()}</p>
-              <p style={{ fontSize: '20px' }}>{anime.first_air_date || anime.release_date}</p>
+              <p style={{ fontSize: '17px' }}>{anime.first_air_date || anime.release_date}</p>
               <h2 className="anime-title">{anime.name || anime.original_name || anime.title || anime.original_title}</h2>
-                      <p className="anime-synopsis">{anime.overview ? (anime.overview.slice(0, 200) + (anime.overview.length > 200 ? "…" : "")) : "No synopsis"}</p>
+                      <p className="anime-synopsis">{anime.overview ? ((!isMobile ? anime.overview.slice(0, 200) : anime.overview.slice(0, 60)) + (anime.overview.length > 200 ? "…" : "")) : "No synopsis"}</p>
                 <Link to={`/anime/${anime.id}?type=tv`} style={{ padding: '10px 15px', fontSize:'16px', color:'black', backgroundColor:'#fefefefe', borderRadius:'25px', justifySelf:'start'}}>Click for more</Link>
             </div>
           </div>
