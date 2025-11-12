@@ -232,7 +232,7 @@ export default function DetailPage() {
             {/* Poster Image */}
             <div>
               <img
-                src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} loading="lazy"
                 alt={getTitle()}
                 onError={(e) => {
                   e.currentTarget.src = 'https://via.placeholder.com/300x450?text=No+Image';

@@ -105,7 +105,7 @@ const BestAnime = (containerRef:any) => {
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: '.sticky-cards',
-          start:  `bottom bottom`,
+          start:  isMobile ? 'top center' : `bottom bottom`,
           end: `+=${window.innerHeight * totalPanels * 2}`,
           pin: true,
           scrub: 1,
