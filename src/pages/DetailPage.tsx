@@ -93,9 +93,7 @@ export default function DetailPage() {
   const [images, setImages] = useState<DetailPageImgData | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]); // ✅ Reviews state
   const [loading, setLoading] = useState(false);
-  const [reviewsLoading, setReviewsLoading] = useState(false); // ✅ Separate loading state
   const [error, setError] = useState<string | null>(null);
-  const [reviewsError, setReviewsError] = useState<string | null>(null); // ✅ Separate error state
   const settings = {
     dots: true,
     infinite: true,

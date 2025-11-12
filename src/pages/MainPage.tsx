@@ -6,7 +6,7 @@ import Search from "../components/Search";
 import PopularAnime from "../components/PopularAnime";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import { useGSAP } from "@gsap/react";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,8 +78,8 @@ export default function MainPage() {
       <Header isSearch={handleToggleSearch} />
       {isSearch && <Search isOpen={isSearch} onClose={() => setIsSearch(false)} />}
       <Slider type="tv" onLoadingChange={setSliderLoading} />
-      <PopularAnime type="movie" fadePosition='fade-right' />
-      <PopularAnime type="tv" fadePosition='fade-left' />
+      <PopularAnime type="movie" fadePosition='fade-right' onLoadingChange={setBestAnimeLoading} />
+      <PopularAnime type="tv" fadePosition='fade-left'  onLoadingChange={setBestAnimeLoading} />
       <BestAnime type="movie" onLoadingChange={setBestAnimeLoading} containerRef={containerRef}  />
     </div>
   );

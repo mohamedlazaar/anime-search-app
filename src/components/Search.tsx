@@ -198,7 +198,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose }) => {
           }}
         >
           {results.map((a) => (
-            <AnimeCard key={a.mal_id} anime={a} />
+            <AnimeCard key={a.mal_id} anime={a} type={a.type} />
           ))}
         </div>
       </div>

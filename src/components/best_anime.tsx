@@ -1,4 +1,4 @@
-import { useRef, useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import { useGSAP } from '@gsap/react';
@@ -19,7 +19,6 @@ const BestAnime = (containerRef:any) => {
   const [animeList, setAnimeList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const isTablet = useMediaQuery({maxWidth: 1024})
 
     useEffect(() => {
     const controller = new AbortController();

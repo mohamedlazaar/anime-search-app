@@ -7,8 +7,9 @@ import '../style/PopularAnime.css'
 interface argumentProps {
   type:string;
   fadePosition: string;
+  onLoadingChange: any;
 }
-const PopularAnime = ({type, fadePosition}:argumentProps) => {
+const PopularAnime = ({type, fadePosition, onLoadingChange}:argumentProps) => {
   const [loading, setLoading] = useState(false);
   const [popularAnime, setPopularAnime] = useState([]);
   const [error, setError] = useState('');
@@ -27,9 +28,9 @@ const PopularAnime = ({type, fadePosition}:argumentProps) => {
     className:'popular',
     arrows:  isTablet? false : true,
     easing: 'ease'
-
   }
 
+  console.log(onLoadingChange)
 
   // ✅ Get total pages from API
   async function getTotalPages() {

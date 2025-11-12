@@ -5,6 +5,7 @@ export interface AnimeShort {
   title: string;
   images?: { jpg?: { image_url?: string } };
   synopsis?: string;
+  type?:string
 }
 
 interface SearchState {
