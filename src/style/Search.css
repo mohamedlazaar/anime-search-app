@@ -15,17 +15,24 @@
 .close{
     position: absolute;
     right: 5%;
-    font-size: 25px;
-    line-height:'1.2';
     color: white;
     top: 4%;
     background: none;
     outline: none;
-    border: 1px solid rgb(59, 98, 198) ;
+    border:none;
     width: '40px';
     height:'40px';
-    border-radius: '100%';
+    display: flex;
+    justify-content: center;
+    align-items:center;
     cursor: pointer;      
+    transition: all .7s ease-in;
+}
+.close svg path{
+  fill: #ffffff;
+}
+.close:hover svg path{
+  fill: rgb(59, 98, 198)
 }
 .search-input{
     width: 80%;

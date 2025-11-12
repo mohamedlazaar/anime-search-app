@@ -24,13 +24,9 @@ function Header({ isSearch }: HeaderProps) {
         backgroundColor: '#000000ff'
       }}
     >
-      <h1 style={{ color: 'white', fontSize: '30px' }}>Anime Search App</h1>
+      <h1 style={{ color: 'white', fontSize: '30px' }}>Best Anime</h1>
       
       <nav style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <a href="/" style={{ textDecoration: 'none', color: 'white', fontSize: '20px' }}>
-          Home
-        </a>
-        
         <button
           onClick={isSearch}  
           style={{

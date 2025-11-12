@@ -478,10 +478,8 @@ export default function DetailPage() {
 
           {/* No reviews message */}
           {reviews.length === 0 && (
-            <div style={{ marginTop: '40px', padding: '0 20px', textAlign: 'center' }}>
-              <p style={{ color: '#888', fontSize: '1.1rem' }}>
-                No reviews available for this {data.type === 'movie' ? 'movie' : 'show'}.
-              </p>
+            <div>
+
             </div>
           )}
         </div>

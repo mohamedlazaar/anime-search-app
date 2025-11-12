@@ -133,7 +133,7 @@ const PopularAnime = ({type, fadePosition}:argumentProps) => {
   if(loading) return (<p>Loading popular anime...</p>)
   if(error) return (<p style={{ color: 'red' }}>Error: {error}</p>)
   return (
-     <section className='popular_container'  data-aos={fadePosition} data-aos-duration="duration: 400">
+     <section className='popular_container'  data-aos={fadePosition} data-aos-duration="duration: 100" data-aos-delay='0' data-aos-mirror="true">
         <h3 className='popular_header'>POPULAR {type.toUpperCase()} LIST</h3>
       <div className='popular_slider_container' >
         <SwiperSlider  settings={settings}>
