@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import SwiperSlider from './SwiperSlider';
 import { useMediaQuery } from 'react-responsive';
-import '../styles.css'
-import { Link } from 'react-router';
+import AnimeCard from './AnimeCard';
+import '../style/PopularAnime.css'
 
-const PopularAnime = (type:any) => {
+interface argumentProps {
+  type:string;
+  fadePosition: string;
+}
+const PopularAnime = ({type, fadePosition}:argumentProps) => {
   const [loading, setLoading] = useState(false);
   const [popularAnime, setPopularAnime] = useState([]);
   const [error, setError] = useState('');
@@ -15,14 +19,14 @@ const PopularAnime = (type:any) => {
     infinite: true,
     speed: 500,
     adaptiveHeight: true,
-    slidesToShow: isTablet ? 2 : isMobile ? 1 : 5,
+    slidesToShow: isTablet ? 2 : isMobile ? 1 : 4,
     sliderToScroll: 1,
     autoPlay:true,
     initialSlide: 0,
     centerPadding: '50px',
     className:'popular',
     arrows:  isTablet? false : true,
-    easing:'linear'
+    easing: 'ease'
 
   }
 
@@ -39,7 +43,7 @@ const PopularAnime = (type:any) => {
       };
 
       const res = await fetch(
-        `https://api.themoviedb.org/3/${type.type}/popular?region=JP`,
+        `https://api.themoviedb.org/3/${type}/popular?region=JP`,
         options
       );
 
@@ -63,7 +67,7 @@ const PopularAnime = (type:any) => {
       signal,
     };
 
-    const url = `https://api.themoviedb.org/3/${type.type}/popular?language=en-US&page=${pageNum}&region=JP`;
+    const url = `https://api.themoviedb.org/3/${type}/popular?language=en-US&page=${pageNum}&region=JP`;
     const res = await fetch(url, options);
 
     if (!res.ok) throw new Error(`API Error: ${res.status}`);
@@ -77,7 +81,7 @@ const PopularAnime = (type:any) => {
 
     try {
       // Create array of page numbers
-      const pageNumbers = Array.from({ length: 30}, (_, i) => i + 1);
+      const pageNumbers = Array.from({ length: 10}, (_, i) => i + 1);
 
       // Fetch all pages in parallel
       const allResults = await Promise.all(
@@ -129,27 +133,12 @@ const PopularAnime = (type:any) => {
   if(loading) return (<p>Loading popular anime...</p>)
   if(error) return (<p style={{ color: 'red' }}>Error: {error}</p>)
   return (
-     <section style={{ margin: ' auto', width:'90%', position:'relative' ,padding: "2em", minHeight:'50svh' }}>
-        <h3 style={{ fontSize: "1.8rem", color: "rgb(59, 98, 198)", marginBottom: '20px' }}>
-                POPULAR {type.type.toUpperCase()} LIST
-        </h3>
-      <div style={{
-              
-                gap: '15px',
-                marginBottom: '40px'
-              }}>
+     <section className='popular_container'  data-aos={fadePosition} data-aos-duration="duration: 400">
+        <h3 className='popular_header'>POPULAR {type.toUpperCase()} LIST</h3>
+      <div className='popular_slider_container' >
         <SwiperSlider  settings={settings}>
             {popularAnime.map((anime: any) => (
-             <div key={anime.id} style={{  backgroundColor:'#666666ff !important'}}>
-                <img src={`https://image.tmdb.org/t/p/original${anime.backdrop_path || anime.poster_path}`} alt={anime.title || anime.name} style={{width:'100%', height:'60%', objectFit:'cover'}} />
-                <div style={{border:'none', marginBottom:'10px', height:'40%'}}>
-                    <h3 style={{fontSize:isTablet ? '1rem' : isMobile ? '0.6rem': '1.2rem', marginLeft:'10px'}}>{anime.title || anime.name}</h3>
-                    <Link to={`/anime/${anime.id}?type=${type.type}`} style={{color: 'black', backgroundColor:'rgb(59, 98, 198)', alignSelf:'start',borderRadius:'25px' ,padding:'10px 20px',marginLeft:'10px'
-                    }}>More Info</Link>                    
-                </div>
-
-                {/* Add more details as needed */}
-            </div> 
+             <AnimeCard key={anime.mal_id} anime={anime} type={type}/>
             ))}
         </SwiperSlider>
         </div>

@@ -18,26 +18,27 @@ const Slider = (type:any) => {
   // Fetch anime data
 useEffect(() => {
   const controller = new AbortController();
-    setLoading(true)
-  // ✅ FIXED: Sort by highest rating and add minimum vote count
-  const url = 'https://api.themoviedb.org/3/discover/tv?include_adult=true&page=1&with_origin_country=JP&with_genres=16&sort_by=vote_average.desc&vote_count.gte=100';
-  
-  const options = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
-      accept: 'application/json',
-    },
-    signal: controller.signal
-  };
 
-  fetch(url, options)
-    .then((res) => {
+  const fetchTopRatedAnime = async () => {
+    setLoading(true);
+    try {
+      const url =
+        "https://api.themoviedb.org/3/discover/tv?include_adult=true&page=1&with_origin_country=JP&with_genres=16&sort_by=vote_average.desc&vote_count.gte=100";
+
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
+          accept: "application/json",
+        },
+        signal: controller.signal,
+      };
+
+      const res = await fetch(url, options);
       if (!res.ok) throw new Error(`API Error: ${res.status}`);
-      return res.json();
-    })
-    .then((json) => {
-      
+
+      const json = await res.json();
+
       const filteredAnime = json.results.filter((anime: any) => {
         return (
           anime.backdrop_path &&
@@ -46,17 +47,22 @@ useEffect(() => {
           anime.overview
         );
       });
+
       setAnimeList(filteredAnime);
-    })
-    .catch((err) => {
-      if (err.name !== 'AbortError') {
-        setError(err.message || 'Failed to fetch anime data');
+    } catch (err: any) {
+      if (err.name !== "AbortError") {
+        setError(err.message || "Failed to fetch anime data");
       }
-    })
-    .finally(() => setLoading(false));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchTopRatedAnime();
 
   return () => controller.abort();
 }, []);
+
 
 
   const showSlider = useCallback((type: 'next' | 'prev') => {
@@ -136,7 +142,7 @@ useEffect(() => {
             key={`${anime.id}-${idx}`}
           >
             <img 
-              src={`https://image.tmdb.org/t/p/original${anime.backdrop_path}`} style={{ background: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))'}}
+              src={`https://image.tmdb.org/t/p/original${anime.backdrop_path}`} style={{ background: 'linear-gradient(rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.47))'}}
               alt={anime.original_title || anime.title || 'Anime'}
               loading="lazy"
               onError={(e) => {

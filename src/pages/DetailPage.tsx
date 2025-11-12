@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import SwiperSlide from "../components/SwiperSlider";
-
+import '../style/DetailsPage.css'
 
 // ✅ Add Review interface
 interface Review {
@@ -175,6 +175,7 @@ export default function DetailPage() {
         const jsonData = await dataRes.json();
         const jsonImages = await imagesRes.json();
         const jsonReviews = reviewsRes.ok ? await reviewsRes.json() : { results: [] }; // ✅ Handle reviews
+        console.log('jsondata', jsonData)
 
         setData({ type: detectedType, ...jsonData });
         setImages({ type: detectedType, ...jsonImages });
@@ -211,22 +212,7 @@ export default function DetailPage() {
 
   return (
     <div className="container" style={{ color: 'white', padding: '20px' }}>
-      <Link
-        to="/"
-        style={{
-          textDecoration: "none",
-          color: "white",
-          backgroundColor: "rgb(59, 98, 198)",
-          fontSize: "1.2rem",
-          padding: "10px 20px",
-          borderRadius: "25px",
-          display: 'inline-block',
-          marginBottom: '20px',
-          alignSelf: 'start'
-        }}
-      >
-        ← Back
-      </Link>
+      <Link to="/" className="back"> ← Back </Link>
 
       {loading && <p>Loading detail…</p>}
       {error && <p className="error">Error: {error}</p>}
@@ -237,51 +223,27 @@ export default function DetailPage() {
           {data.backdrop_path && (
             <div
               style={{
-                width: '100vw',
-                backgroundAttachment: 'fixed',
-                height: '250px',
-                backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(https://image.tmdb.org/t/p/original${data.backdrop_path})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: '10px',
-                marginBottom: '30px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: "center"
+                   backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(https://image.tmdb.org/t/p/original${data.backdrop_path})`,
               }}
+              className="fixed_image"
             >
-              <h1 style={{ fontSize: '3rem', color: 'white' }}>{data.name || data.title}</h1>
+              <h1>{data.name || data.title}</h1>
             </div>
           )}
 
           {/* Media Type Badge */}
           <div style={{ 
-            display: 'inline-block',
-            alignSelf: 'start',
-            backgroundColor: data.type === 'tv' ? '#FF6B35' : '#3B62C6',
-            color: 'white',
-            padding: '8px 16px',
-            borderRadius: '20px',
-            marginBottom: '20px',
-            fontSize: '0.95rem',
-            fontWeight: 'bold',
-            marginLeft: '20px'
-          }}>
+            backgroundColor: data.type === 'tv' ? '#FF6B35' : '#3B62C6'
+          }} className="badge">
             {data.type === 'tv' ? '📺 TV SHOW' : '🎬 MOVIE'}
           </div>
 
-          <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap', marginBottom: '40px', padding: '0 20px', width: '95%', margin: 'auto' }}>
+          <div className="info_container">
             {/* Poster Image */}
             <div>
               <img
                 src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 alt={getTitle()}
-                style={{ 
-                  width: "300px", 
-                  height: "450px",
-                  borderRadius: '10px',
-                  objectFit: 'cover'
-                }}
                 onError={(e) => {
                   e.currentTarget.src = 'https://via.placeholder.com/300x450?text=No+Image';
                 }}
@@ -289,97 +251,65 @@ export default function DetailPage() {
             </div>
 
             {/* Details */}
-            <div style={{ flex: 1 }}>
-              <h1 style={{ fontSize: "3rem", margin: 0, textAlign: 'left' }}>
-                {getTitle()}
-              </h1>
+            <div style={{ flex: 1 }} className="details">
+              <h1> {getTitle()}</h1>
               
               {getOriginalTitle() && (
-                <p style={{ fontSize: '1.2rem', color: '#888', margin: '5px 0 20px 0' }}>
-                  {getOriginalTitle()}
-                </p>
+                <p> {getOriginalTitle()} </p>
               )}
-
-              <div
-                className="info"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: `${isMobile ? '1fr' : '1fr 1fr'}`,
-                  gap: "15px",
-                  marginTop: "20px"
-                }}
-              >
-                <p style={{ fontSize: '1.1rem' }}>
-                  <strong style={{ color: 'rgb(59, 98, 198)' }}>
-                    {data.type === 'tv' ? 'First Air Date:' : 'Release Date:'}
-                  </strong>{" "}
-                  {getAirDate() ? new Date(getAirDate()!).toLocaleDateString() : "N/A"}
-                </p>
-
-                <p style={{ fontSize: '1.1rem' }}>
-                  <strong style={{ color: "rgb(59, 98, 198)" }}>
-                    {data.type === 'tv' ? 'Episode Runtime:' : 'Runtime:'}
-                  </strong>{" "}
-                  {getDuration() ? `${getDuration()} minutes` : "N/A"}
-                </p>
-
+              <div className="info" style={{ gridTemplateColumns: `${isMobile ? '1fr' : '1fr 1fr'}`}}>
+                 <p>
+                    <strong style={{ color: 'rgb(59, 98, 198)' }}>
+                      {data.type === 'tv' ? 'First Air Date:' : 'Release Date:'}
+                    </strong>{" "}
+                    {getAirDate() ? new Date(getAirDate()!).toLocaleDateString() : "N/A"}
+                  </p>
+                  <p>
+                    <strong >
+                      {data.type === 'tv' ? 'Episode Runtime:' : 'Runtime:'}
+                    </strong>{" "}
+                    {getDuration() ? `${getDuration()} minutes` : "N/A"}
+                  </p>
                 {data.type === 'tv' && data.number_of_seasons && (
-                  <p style={{ fontSize: '1.1rem' }}>
-                    <strong style={{ color: "rgb(59, 98, 198)" }}>Seasons:</strong>{" "}
+                  <p>
+                    <strong >Seasons:</strong>{" "}
                     {data.number_of_seasons}
                   </p>
                 )}
-
                 {data.type === 'tv' && data.number_of_episodes && (
-                  <p style={{ fontSize: '1.1rem' }}>
-                    <strong style={{ color: "rgb(59, 98, 198)" }}>Episodes:</strong>{" "}
+                  <p>
+                    <strong >Episodes:</strong>{" "}
                     {data.number_of_episodes}
                   </p>
                 )}
-
-                <p style={{ fontSize: '1.1rem' }}>
-                  <strong style={{ color: "rgb(59, 98, 198)" }}>Rating:</strong>{" "}
+                <p>
+                  <strong >Rating:</strong>{" "}
                   {data.vote_average > 0 ? `${data.vote_average.toFixed(1)}/10` : "N/A"}
                 </p>
-
-                <p style={{ fontSize: '1.1rem' }}>
-                  <strong style={{ color: "rgb(59, 98, 198)" }}>Votes:</strong>{" "}
+                <p>
+                  <strong >Votes:</strong>{" "}
                   {data.vote_count ? data.vote_count.toLocaleString() : "N/A"}
                 </p>
-
-                <p style={{ fontSize: '1.1rem' }}>
-                  <strong style={{ color: "rgb(59, 98, 198)" }}>Status:</strong>{" "}
+                <p>
+                  <strong >Status:</strong>{" "}
                   {data.status || "N/A"}
                 </p>
-
-                <p style={{ fontSize: '1.1rem' }}>
-                  <strong style={{ color: "rgb(59, 98, 198)" }}>Language:</strong>{" "}
+                <p>
+                  <strong >Language:</strong>{" "}
                   {data.original_language?.toUpperCase() || "N/A"}
                 </p>
-
-                <p style={{ fontSize: '1.1rem' }}>
-                  <strong style={{ color: "rgb(59, 98, 198)" }}>Country:</strong>{" "}
+                <p>
+                  <strong >Country:</strong>{" "}
                   {data.production_countries?.map((c: any) => c.name).join(", ") || "N/A"}
                 </p>
               </div>
 
               {/* Genres */}
-              <div style={{ fontSize: '1.3rem', marginTop: '30px' }}>
-                <strong style={{ color: "rgb(59, 98, 198)" }}>Genres:</strong>
-                <div style={{ display: 'flex', gap: "10px", alignItems: 'center', flexWrap: 'wrap', marginTop: '8px' }}>
+              <div className="genres">
+                <strong >Genres:</strong>
+                <div>
                   {data.genres?.map((genre: any) => (
-                    <span
-                      key={genre.id}
-                      style={{
-                        display: 'inline-block',
-                        backgroundColor: 'rgba(0, 89, 255, 0.2)',
-                        padding: '5px 10px',
-                        borderRadius: '5px',
-                        fontSize: '0.9rem'
-                      }}
-                    >
-                      {genre.name}
-                    </span>
+                    <span key={genre.id}>{genre.name}</span>
                   ))}
                 </div>
               </div>
@@ -387,7 +317,7 @@ export default function DetailPage() {
               {/* Production Companies */}
               {data.production_companies && data.production_companies.length > 0 && (
                 <div style={{ marginTop: '30px' }}>
-                  <strong style={{ color: "rgb(59, 98, 198)", fontSize: '1.3rem' }}>Production Companies:</strong>
+                  <strong style={{ fontSize: '1.3rem' }}>Production Companies:</strong>
                   <p style={{ color: 'white', fontSize: '1.1rem' }}>
                     {data.production_companies.map((c: any) => c.name).join(", ")}
                   </p>
@@ -414,15 +344,9 @@ export default function DetailPage() {
           {data.backdrop_path && (
             <div
               style={{
-                width: '100vw',
-                backgroundAttachment: 'fixed',
-                height: '400px',
                 backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(https://image.tmdb.org/t/p/original${data.backdrop_path})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: '10px',
-                marginBottom: '30px',
               }}
+              className='fixed_image'
             />
           )}
 
@@ -434,24 +358,17 @@ export default function DetailPage() {
                 Poster Gallery
               </h3>
               <div style={{
-              
                 gap: '15px',
                 marginBottom: '40px'
               }}>
             <SwiperSlide settings={settings_2}>     
                 {images.posters.slice(0, 10).map((poster, idx) => (
                   <img
+                    className="images_slide posters_"
                     key={idx}
                     src={`https://image.tmdb.org/t/p/w300${poster.file_path}`}
                     alt={`Poster ${idx}`}
-                    style={{
-                      width: '100%',
-                      height: '300px',
-                      borderRadius: '10px',
-                      objectFit: 'cover',
-                      cursor: 'pointer',
-                      transition: 'transform 0.3s ease'
-                    }}
+                    loading="lazy"
                     onError={(e) => {
                       e.currentTarget.src = 'https://via.placeholder.com/200x300?text=No+Image';
                     }}
@@ -476,7 +393,7 @@ export default function DetailPage() {
               </h3>
               <div style={{
                 width:'100%',
-                height: isTablet ? 'auto' : '400px'              }}>
+                height: isTablet ? 'auto' : '400px' }}>
 
                  <SwiperSlide settings={settings}>
                   {images.backdrops.slice(0, 8).map((backdrop, idx) => (
@@ -485,16 +402,8 @@ export default function DetailPage() {
                                     src={`https://image.tmdb.org/t/p/w500${backdrop.file_path}`}
                                     alt={`Backdrop ${idx}`}
                                     width='100'
-                                    style={{
-                                      marginLeft:'10px',
-                                      width: '100%',
-                                      height: '400px',
-                                      borderRadius: '25px',
-                                      objectFit: 'cover',
-                                      cursor: 'pointer',
-                                      transition: 'transform 0.3s ease'
-                                    
-                                    }}
+      
+                                   className="images_slide backdrops_"
                                     onError={(e) => {
                                       e.currentTarget.src = 'https://via.placeholder.com/300x200?text=No+Image';
                                     }}
@@ -514,26 +423,15 @@ export default function DetailPage() {
 
           {/* ✅ REVIEWS SECTION */}
           {reviews && reviews.length > 0 && (
-            <div style={{ marginTop: '40px', padding: '0 20px', marginBottom: '40px', width:'95%', margin:'auto auto' }}>
-              <h3 style={{ fontSize: "1.8rem", color: "rgb(59, 98, 198)", marginBottom: '20px' }}>
-                Reviews ({reviews.length})
-              </h3>
+            <div className="reviews_container">
+              <h3>Reviews ({reviews.length})</h3>
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: `${isMobile ? '1fr' : '1fr 1fr'}`,
                 gap: '20px'
               }}>
                 {reviews.slice(0, 6).map((review) => (
-                  <div
-                    key={review.id}
-                    style={{
-                      backgroundColor: 'rgba(59, 98, 198, 0.1)',
-                      border: '1px solid rgba(59, 98, 198, 0.3)',
-                      borderRadius: '10px',
-                      padding: '20px',
-                      color: '#ccc'
-                    }}
-                  >
+                  <div key={review.id} className='review' >
                     {/* Review Author */}
                     <div style={{ marginBottom: '15px' }}>
                       <h4 style={{ margin: 0, color: 'white', fontSize: '1.1rem' }}>
@@ -554,32 +452,9 @@ export default function DetailPage() {
                     </div>
 
                     {/* Review Content */}
-                    <p style={{
-                      lineHeight: '1.6',
-                      fontSize: '0.95rem',
-                      margin: '15px 0',
-                      maxHeight: '150px',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 5,
-                      WebkitBoxOrient: 'vertical'
-                    }}>
-                      {review.content}
-                    </p>
-
+                    <p className="review_count" >{review.content}</p>
                     {/* Read More Link */}
-                    <a
-                      href={review.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: 'rgb(59, 98, 198)',
-                        textDecoration: 'none',
-                        fontSize: '0.9rem',
-                        fontWeight: 'bold',
-                        transition: 'color 0.3s ease'
-                      }}
+                    <a href={review.url} target="_blank" rel="noopener noreferrer" className="review_url"
                       onMouseEnter={(e) => {
                         e.currentTarget.style.color = '#ffd700';
                       }}
@@ -592,15 +467,9 @@ export default function DetailPage() {
                   </div>
                 ))}
               </div>
-
               {/* Show more reviews button */}
               {reviews.length > 6 && (
-                <p style={{ 
-                  marginTop: '20px', 
-                  textAlign: 'center', 
-                  color: '#888',
-                  fontSize: '0.95rem'
-                }}>
+                <p className="more_reviews">
                   ... and {reviews.length - 6} more reviews
                 </p>
               )}

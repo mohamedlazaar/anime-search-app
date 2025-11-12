@@ -4,9 +4,18 @@ import BioLandingPage from "./pages/Bio";
 import MainPage from "./pages/MainPage";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Aos from 'aos';
+import 'aos/dist/aos.css'
+import { useEffect } from "react";
+
 
 
 export default function App() {
+  useEffect(()=>{
+    Aos.init({
+      easing:'ease',
+    })
+  })
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />

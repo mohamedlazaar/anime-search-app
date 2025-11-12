@@ -12,6 +12,7 @@ import {
 } from "../store/searchSlice";
 import AnimeCard from "../components/AnimeCard";
 import Pagination from "../components/Pagination";
+import '../style/Search.css'
 
 interface SearchProps {
   isOpen: boolean;
@@ -158,61 +159,11 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div
-      className="search-section"
-      style={{
-        width: "100vw",
-        height: "95%",
-        position: "fixed",
-        top: "10%",
-        bottom: "0",
-        left: 0,
-        zIndex: 1000,
-        backgroundColor: "#000000",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: `${isMobile ? "50px 0" : "0"}`,
-        overflow: "hidden",
-      }}
-    >
-      <button
-        style={{
-          position: "absolute",
-          right: "5%",
-          fontSize: "20px",
-          color: "white",
-          top: "4%",
-          background: "none",
-          outline: "none",
-          border: "1px solid white",
-          borderRadius: "25px",
-          cursor: "pointer",
-        }}
-        onClick={onClose}
-      >
-        X
-      </button>
+    <div className="search-section" style={{padding: `${isMobile ? "50px 0" : "0"}` }}>
+      <button className="close" onClick={onClose}>X</button>
 
       <h1 className="title">Anime Search</h1>
-      <input
-        value={localQuery}
-        onChange={handleInputChange}
-        placeholder="Search anime..."
-        aria-label="Search anime"
-        className="search-input"
-        style={{
-          width: "80%",
-          maxWidth: "600px",
-          padding: "15px",
-          fontSize: "18px",
-          borderRadius: "10px",
-          border: "2px solid #333",
-          backgroundColor: "#1a1a1a",
-          color: "#fff",
-          margin: "30px 0",
-        }}
-      />
+      <input value={localQuery} onChange={handleInputChange} placeholder="Search anime..."  aria-label="Search anime" className="search-input" />
 
       {loading && <p style={{ color: "#fff" }}>Loading…</p>}
       {error && (
@@ -227,12 +178,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose }) => {
         )}
 
       <div
-        style={{
-          height: "90%",
-          overflowY: `${results.length === 0 ? "hidden" : "scroll"}`,
-        }}
-        className="scroll-container"
-      >
+        style={{height: "90%", overflowY: `${results.length === 0 ? "hidden" : "scroll"}`}} className="scroll-container" >
         <div
           className="grid"
           style={{

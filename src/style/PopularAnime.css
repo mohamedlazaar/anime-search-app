@@ -1,0 +1,16 @@
+.popular_container{
+    margin:  auto;
+    width: 90%;
+    position:relative;
+    padding: 2em; min-height:50svh;
+    height:100% 
+}
+
+.popular_container .popular_header{
+    font-size: 1.8rem;
+    color: rgb(59, 98, 198);
+    margin-bottom: 20px
+}
+.slider_container{
+    margin-bottom: 40px;
+}

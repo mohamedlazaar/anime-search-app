@@ -1,0 +1,155 @@
+.back{
+    text-decoration: none;
+    color: white;
+    background-color: rgb(59, 98, 198);
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-block;
+    margin-bottom: 20px;
+    align-self: start
+}
+.data_container .fixed_image{
+    width: 100vw;
+    background-attachment: fixed;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: "center"
+}
+.data_container .fixed_image h1{
+    font-size: 3rem;
+    color: white
+}
+
+.data_container .badge{
+    display: inline-block;
+    align-self: start;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-left: 20px;
+}
+.data_container .info_container{
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    width: 95%;
+    margin: auto 
+}
+.data_container .info_container div img{
+    width: 300px; 
+    height: 450px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.info_container .details {
+    flex: 1
+}
+.info_container .details h1{
+    font-size: 3rem;
+    margin:0;
+    text-align: left;
+}
+.info_container .details p{
+    font-size: 1.2rem;
+    color: #888;
+    margin: 5px 20px 0;
+}
+.info{
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
+.info p{
+    font-size: 1.1rem;
+}
+
+.genres{
+    font-size: 1.3rem;
+    margin-top: 30px;
+}
+.genres div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+.genres div span{
+    display: inline-block;
+    background-color: rgba(0, 89, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem
+}
+.data_container strong{
+    color: rgb(59, 98, 198)
+}
+.images_slide{
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 100%;
+    object-fit: cover;
+}
+.posters_{
+    height:300px;
+}
+.backdrops_{
+    margin-left: 10px;
+    height: 400px;
+}
+
+/* reviews section */
+.reviews_container{
+    margin-top: 40px;
+    padding: 0 20px;
+    margin-bottom: 40px;
+    width:95%;
+    margin:auto;
+}
+.reviews_container h3{
+    font-size: 1.8rem;
+    color: rgb(59, 98, 198);
+    margin-bottom: 20px;
+}
+.review{
+    background-color: rgba(59, 98, 198, 0.1);
+    border: 1px solid rgba(59, 98, 198, 0.3);
+    border-radius: 25px;
+    padding: 20px;
+    color: #ccc;
+}
+.review_count{
+    line-height: 1.6;
+    font-size: .95rem;
+    margin: 15px 0;
+    max-height: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    --WebkitLineClamp: 5;
+    --WebkitBoxOrient: vertical;
+}
+.review_url{
+    color: rgb(59, 98, 198);
+    text-decoration: 'none';
+    font-size: .9rem;
+    font-weight: bold;
+    transition: color .3s ease;
+}
+.more_reviews{
+    margin-top: 20px;
+    text-align: center;
+    color: #888;
+    font-size: .95rem;
+}
