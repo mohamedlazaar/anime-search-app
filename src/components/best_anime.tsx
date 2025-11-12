@@ -4,15 +4,10 @@ import { ScrollTrigger } from 'gsap/all';
 import { useGSAP } from '@gsap/react';
 import '../style/BestAnime.css';
 import { Link } from 'react-router';
-import { useMediaQuery } from 'react-responsive';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface BestAnimeProp {
-  type?: any;
-  reff:any;
-  onLoadingChange:any;
-}
 
 const BestAnime = (containerRef:any) => {
   // const containerRef = useRef<any | null>(null);
