@@ -20,7 +20,7 @@ const PopularAnime = ({type, fadePosition, onLoadingChange}:argumentProps) => {
     infinite: true,
     speed: 500,
     adaptiveHeight: true,
-    slidesToShow: isTablet ? 2 : isMobile ? 1 : 4,
+    slidesToShow: isTablet ? 1 : 4,
     sliderToScroll: 1,
     autoPlay:true,
     initialSlide: 0,

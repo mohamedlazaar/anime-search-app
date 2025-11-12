@@ -22,7 +22,7 @@ export default function MainPage() {
 
   // ✅ Always call useEffect (no conditional placement)
   useEffect(() => {
-    const maxLoadTimer = setTimeout(() => setPageReady(true), 2000);
+    const maxLoadTimer = setTimeout(() => setPageReady(true), 3500);
 
     if (isPageReady) {
       setPageReady(true);

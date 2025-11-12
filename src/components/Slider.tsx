@@ -177,6 +177,7 @@ useEffect(() => {
               onError={(e) => {
                 e.currentTarget.src = 'https://via.placeholder.com/500x750?text=No+Image';
               }}
+              loading="lazy"
             />
           </div>
         ))}
