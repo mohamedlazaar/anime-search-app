@@ -34,9 +34,6 @@ export default function MainPage() {
 
   const handleToggleSearch = () => setIsSearch(!isSearch);
 
-  // ✅ Always call useGSAP (but guard logic inside it)
-
-
   // ✅ Conditional rendering happens *after* all hooks
   if (!pageReady) {
     return (
@@ -78,7 +75,7 @@ export default function MainPage() {
       <Header isSearch={handleToggleSearch} />
       {isSearch && <Search isOpen={isSearch} onClose={() => setIsSearch(false)} />}
       <Slider type="tv" onLoadingChange={setSliderLoading} />
-      <PopularAnime type="movie" fadePosition='fade-right' onLoadingChange={setBestAnimeLoading} />
+      <PopularAnime type="movie" fadePosition='fade-right' onLoadingChange={setPopularAnimeLoading} />
       <PopularAnime type="tv" fadePosition='fade-left'  onLoadingChange={setBestAnimeLoading} />
       <BestAnime type="movie" onLoadingChange={setBestAnimeLoading} containerRef={containerRef}  />
     </div>

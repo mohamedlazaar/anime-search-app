@@ -79,10 +79,10 @@ const PopularAnime = ({type, fadePosition, onLoadingChange}:argumentProps) => {
   async function fetchAllPagesWithGenre16(totalPages: number) {
     const controller = new AbortController();
     setLoading(true);
-
+    totalPages= 10
     try {
       // Create array of page numbers
-      const pageNumbers = Array.from({ length: 10}, (_, i) => i + 1);
+      const pageNumbers = Array.from({ length: totalPages}, (_, i) => i + 1);
 
       // Fetch all pages in parallel
       const allResults = await Promise.all(

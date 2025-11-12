@@ -14,7 +14,8 @@ const Slider = (type:any) => {
   
   const timeRunning = 400;
   const timeAutoNext = 10000;
-
+ 
+  console.log(type)
   // Fetch anime data
 useEffect(() => {
   const controller = new AbortController();

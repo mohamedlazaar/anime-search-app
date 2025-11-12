@@ -155,7 +155,7 @@ const BestAnime = (containerRef:any) => {
   if (error) return <div className="error">Error: {error}</div>;
 
   return (
-    <div style={{}} className="best_anime_container" data-aos='fade-right' data-aos-duration="600">
+    <div  className="best_anime_container" data-aos='fade-right' data-aos-duration="600">
       <section className="sticky-cards" >
         <div className="anime-panel">
           {animeList.map((anime) => (

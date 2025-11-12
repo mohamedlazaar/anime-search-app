@@ -18,14 +18,6 @@ interface Review {
     rating: number | null;
   };
 }
-
-interface ReviewsData {
-  results: Review[];
-  page: number;
-  total_pages: number;
-  total_results: number;
-}
-
 interface MediaData {
   id: number;
   title?: string;
