@@ -105,6 +105,11 @@ html {
   margin: 0 0 20px 0;
   font-weight: 600;
 }
+@media screen and (max-width: 767px) {
+  .anime-title{
+    font-size: 1.2rem;
+  }
+}
 .anime_link{
   padding: 10px 15px;
   font-size: 16px;
