@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef} from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import { useGSAP } from '@gsap/react';
@@ -6,11 +6,12 @@ import '../style/BestAnime.css';
 import { Link } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 
 const BestAnime = (containerRef:any) => {
-  // const containerRef = useRef<any | null>(null);
+  const containerReff = useRef<any | null>(null);
   const [animeList, setAnimeList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery({maxWidth: 767})
@@ -106,13 +107,16 @@ const BestAnime = (containerRef:any) => {
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: '.sticky-cards',
-          start:  isMobile ? 'top center' : `bottom bottom`,
-          end: `+=${window.innerHeight * totalPanels * 2}`,
+          start:  isMobile ? `top center` : 'bottom bottom' ,
+   
+          end:  `+=${window.innerHeight * totalPanels * 2 }`,
+          fastScrollEnd: 3000,
           pin: true,
-          scrub: 0.5,
-          markers: {startColor:'transparent', endColor:'transparent'},
+          scrub: .5,
+          anticipatePin:1,
           invalidateOnRefresh: true, // ✅ Recalculate on refresh
           refreshPriority:1,
+          markers: {startColor:'transparent', endColor:'transparent'}
         }
       });
 
@@ -141,7 +145,7 @@ const BestAnime = (containerRef:any) => {
         scrollTimeline.kill();
         ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       };
-    }, {  scope:containerRef.current, dependencies: [animeList, loading] });
+    }, {  scope:containerReff, dependencies: [animeList, loading] });
 
 
   useEffect(() => {
@@ -156,7 +160,7 @@ const BestAnime = (containerRef:any) => {
   if (error) return <div className="error">Error: {error}</div>;
 
   return (
-    <div  className="best_anime_container" data-aos='fade-right' data-aos-duration="600">
+    <div ref={containerReff}  className="best_anime_container" data-aos='fade-right' data-aos-duration="600">
       <section className="sticky-cards" >
         <div className="anime-panel">
           {animeList.map((anime) => (
