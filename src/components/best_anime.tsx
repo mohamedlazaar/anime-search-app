@@ -108,9 +108,8 @@ const BestAnime = (type:any) => {
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: '.sticky-cards',
-          start:  isMobile ? `top center` : 'bottom bottom' ,
-   
-          end:  `+=${window.innerHeight * totalPanels * 2 }`,
+          start: isMobile ? 'top top':'bottom bottom' ,
+          end:  isMobile? `=${window.innerHeight * totalPanels} bottom-=1`:`+=${window.innerHeight * totalPanels * 2 }`,
           fastScrollEnd: 3000,
           pin: true,
           scrub: .5,

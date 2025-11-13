@@ -136,6 +136,10 @@ html {
 }
 
 @media (max-width: 768px) {
+  /* .sticky-cards , .anime-panel{
+    max-height: 60vh !important;
+    height: 60vh !important;
+  } */
   .anime-details {
     padding: 1rem;
     width: 95%;
