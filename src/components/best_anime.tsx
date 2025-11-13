@@ -16,7 +16,8 @@ const BestAnime = (type:any) => {
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery({maxWidth: 767})
   const [error, setError] = useState<string | null>(null);
- 
+ window.addEventListener("load", () => ScrollTrigger.refresh());
+
     useEffect(() => {
     console.log(type)
     const controller = new AbortController();
@@ -66,86 +67,119 @@ const BestAnime = (type:any) => {
     return () => controller.abort();
   }, []);
    // ✅ Use useLayoutEffect for ScrollTrigger setup
-    useGSAP(() => {
-      if (animeList.length === 0) return;
-      
-      const panels = document.querySelectorAll('.anime-content');
-      const totalPanels = panels.length;
+useGSAP(() => {
+  if (animeList.length === 0) return;
 
-      // Wait for images to load, then refresh
-      const images = document.querySelectorAll('img');
-      let loadedImages = 0;
-      
-      images.forEach(img => {
-        if (img.complete) {
-          loadedImages++;
-        } else {
-          img.addEventListener('load', () => {
-            loadedImages++;
-            if (loadedImages === images.length) {
-              ScrollTrigger.refresh(); // ✅ Recalculate positions
-            }
-          });
-        }
-      });
+  const panels = document.querySelectorAll('.anime-content');
+  const totalPanels = panels.length;
+  if (totalPanels === 0) return;
 
-      gsap.set(panels[0], { 
-        y: '0%', 
-        scale: 1, 
-        rotation: 0, 
-        transformOrigin: 'center center' 
-      });
+  // ensure panels are initially positioned
+  gsap.set(panels[0], { y: '0%', scale: 1, rotation: 0, transformOrigin: 'center center' });
+  for (let i = 1; i < totalPanels; i++) {
+    gsap.set(panels[i], { y: '100%', scale: 1, rotation: 0, transformOrigin: 'center center' });
+  }
 
-      for (let i = 1; i < totalPanels; i++) {
-        gsap.set(panels[i], { 
-          y: '100%', 
-          scale: 1, 
-          rotation: 0,
-          transformOrigin: 'center center' 
-        });
+  // Wait for images to load, then refresh measurements
+  const images = document.querySelectorAll('img');
+  let loadedImages = 0;
+  const handleImageLoaded = () => {
+    loadedImages++;
+    if (loadedImages >= images.length) {
+      // give browser a tiny moment then refresh
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
+  };
+  if (images.length === 0) {
+    // still refresh once so measurements are correct
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  } else {
+    images.forEach((img) => {
+      if ((img as HTMLImageElement).complete) {
+        handleImageLoaded();
+      } else {
+        img.addEventListener('load', handleImageLoaded, { once: true });
+        img.addEventListener('error', handleImageLoaded, { once: true });
       }
+    });
+  }
 
-      const scrollTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.sticky-cards',
-          start: isMobile ? 'top top':'bottom bottom' ,
-          end:  isMobile? `=${window.innerHeight * totalPanels} bottom-=1`:`+=${window.innerHeight * totalPanels * 2 }`,
-          fastScrollEnd: 3000,
-          pin: true,
-          scrub: .5,
-          anticipatePin:1,
-          invalidateOnRefresh: true, // ✅ Recalculate on refresh
-          refreshPriority:1,
-          markers: {startColor:'transparent', endColor:'transparent'}
-        }
-      });
+  // compute end dynamically using a function — ensures accurate value on refresh/resize
+  const computeEnd = () => {
+    // base multiplier controls how long the scroll scrub is:
+    // increase slightly on mobile to account for smaller viewport / touch momentum
+    const multiplier = window.innerWidth <= 768 ? 2.2 : 1.6;
+    // at minimum allow at least one viewport height for scrubbing
+    return `+=${Math.max(window.innerHeight * totalPanels * multiplier, window.innerHeight * 1.2)}`;
+  };
 
-      for (let i = 0; i < totalPanels - 1; i++) {
-        const currentPanel = panels[i];
-        const nextPanel = panels[i + 1];
-        const position = i;
-        
-        scrollTimeline
-          .to(currentPanel, {
-            scale: 0.5, 
-            rotation: 10, 
-            duration: 1, 
-            delay:.4,
-            ease: 'none'
-          }, position)
-          .to(nextPanel, {
-            y: "0%", 
-            duration: 1, 
-            ease: 'none',
-            delay:.5,
-          }, position);
-      }
+  // If document doesn't have enough height, append a spacer to create scroll distance.
+  // This is a safe fallback for small pages (only created when needed).
+  let spacer: HTMLDivElement | null = null;
+  const ensureScrollSpace = () => {
+    const needed = (window.innerHeight * totalPanels * (window.innerWidth <= 768 ? 2.2 : 1.6));
+    if (document.body.scrollHeight < needed + window.innerHeight) {
+      spacer = document.createElement('div');
+      spacer.style.width = '1px';
+      spacer.style.height = `${needed}px`;
+      spacer.style.pointerEvents = 'none';
+      spacer.style.opacity = '0';
+      document.body.appendChild(spacer);
+    }
+  };
+  ensureScrollSpace();
 
-      return () => {
-        scrollTimeline.kill();
-        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      };
-    }, {  scope:containerReff, dependencies: [animeList, loading] });
+  const scrollTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.sticky-cards',
+      start: isMobile ? 'top top' : 'top top', // keep pinned from top of viewport
+      end: isMobile ? `+=${(window.innerHeight * totalPanels * 2.5) + 100 }` : `+=${window.innerHeight * totalPanels * 2}`, // function so it recalculates on refresh/resizes
+      pin: true,
+      pinSpacing: false,
+      scrub: 0.5,
+      invalidateOnRefresh: true,
+      refreshPriority: 1,
+      // no markers
+    }
+  });
+
+  // build transitions
+  for (let i = 0; i < totalPanels; i++) {
+    const currentPanel = panels[i] as HTMLElement;
+    const nextPanel = panels[i + 1] as HTMLElement;
+    const position = i;
+
+    scrollTimeline
+      .to(currentPanel, {
+        scale: 0.5,
+        rotation: 10,
+        duration: 1,
+        delay: 0.2,
+        ease: 'none'
+      }, position)
+      .to(nextPanel, {
+        y: '0%',
+        duration: 1,
+        delay: 0.2,
+        ease: 'none'
+      }, position);
+  }
+
+  // Ensure ScrollTrigger recalculates when needed (e.g., orientation change)
+  const onResize = () => {
+    ensureScrollSpace();
+    ScrollTrigger.refresh();
+  };
+  window.addEventListener('resize', onResize);
+
+  return () => {
+    window.removeEventListener('resize', onResize);
+    scrollTimeline.kill();
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    if (spacer && spacer.parentElement) spacer.parentElement.removeChild(spacer);
+  };
+}, { scope: containerReff, dependencies: [animeList, loading] });
+
 
 
   useEffect(() => {
