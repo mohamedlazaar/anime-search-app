@@ -77,7 +77,7 @@ export default function MainPage() {
       <Slider type="tv" onLoadingChange={setSliderLoading} />
       <PopularAnime type="movie" fadePosition='fade-right' onLoadingChange={setPopularAnimeLoading} />
       <PopularAnime type="tv" fadePosition='fade-left'  onLoadingChange={setBestAnimeLoading} />
-      <BestAnime type="movie" onLoadingChange={setBestAnimeLoading} containerRef={containerRef}  />
+      <BestAnime type="movie" onLoadingChange={setBestAnimeLoading}   />
     </div>
   );
 }

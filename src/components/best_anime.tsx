@@ -10,14 +10,15 @@ import { useMediaQuery } from 'react-responsive';
 gsap.registerPlugin(ScrollTrigger);
 
 
-const BestAnime = (containerRef:any) => {
+const BestAnime = (type:any) => {
   const containerReff = useRef<any | null>(null);
   const [animeList, setAnimeList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery({maxWidth: 767})
   const [error, setError] = useState<string | null>(null);
-
+ 
     useEffect(() => {
+    console.log(type)
     const controller = new AbortController();
 
     const fetchAnime = async () => {
