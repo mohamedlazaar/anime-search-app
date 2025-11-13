@@ -108,7 +108,7 @@ useGSAP(() => {
   const computeEnd = () => {
     // base multiplier controls how long the scroll scrub is:
     // increase slightly on mobile to account for smaller viewport / touch momentum
-    const multiplier = window.innerWidth <= 768 ? 2.2 : 1.6;
+    const multiplier = window.innerWidth <= 768 ? 2.2 : 2.5;
     // at minimum allow at least one viewport height for scrubbing
     return `+=${Math.max(window.innerHeight * totalPanels * multiplier, window.innerHeight * 1.2)}`;
   };
@@ -133,7 +133,7 @@ useGSAP(() => {
     scrollTrigger: {
       trigger: '.sticky-cards',
       start: isMobile ? 'top top' : 'top top', // keep pinned from top of viewport
-      end: isMobile ? `+=${(window.innerHeight * totalPanels * 2.5) + 100 }` : `+=${window.innerHeight * totalPanels * 2}`, // function so it recalculates on refresh/resizes
+      end: computeEnd, // function so it recalculates on refresh/resizes
       pin: true,
       pinSpacing: false,
       scrub: 0.5,
@@ -144,7 +144,7 @@ useGSAP(() => {
   });
 
   // build transitions
-  for (let i = 0; i < totalPanels; i++) {
+  for (let i = 0; i < totalPanels - 1; i++) {
     const currentPanel = panels[i] as HTMLElement;
     const nextPanel = panels[i + 1] as HTMLElement;
     const position = i;
