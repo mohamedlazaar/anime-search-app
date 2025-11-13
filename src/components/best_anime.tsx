@@ -109,7 +109,7 @@ const BestAnime = (containerRef:any) => {
           start:  isMobile ? 'top center' : `bottom bottom`,
           end: `+=${window.innerHeight * totalPanels * 2}`,
           pin: true,
-          scrub: 1,
+          scrub: 0.5,
           markers: {startColor:'transparent', endColor:'transparent'},
           invalidateOnRefresh: true, // ✅ Recalculate on refresh
           refreshPriority:1,
